@@ -1,5 +1,5 @@
 import { api, setToken, clearToken } from "../api";
-import JwtService from "@/common/jwtservice";
+import JwtService from "@/common/jwt.service";
 
 export default {
     namespaced: true,
@@ -36,9 +36,18 @@ export default {
         }
     },
     actions: {
-        getUser: async function ({ commit }) {
-            const user = await api.get("/user");
+        getUser: function ({ commit }) {
+            const user = api.get("/user");
             commit("setUser", user);
+        },
+        userLoggedIn: function({ commit }){
+            var token = JwtService.getToken();
+            if(token) {
+                setToken(token);
+                api.get("user").then(({data}) => {
+                    commit("setUser", data.user);
+                })
+            }
         },
         loginUser: async function ({ commit }, { email, password }) {
             clearToken();
@@ -55,7 +64,6 @@ export default {
                     commit("setAuthentication", response.data.user);
                 }
             } catch (e) {
-                console.error(e);
                 throw e;
             }
         },
@@ -69,7 +77,6 @@ export default {
                     }
                 });
             } catch (e) {
-                console.error(e);
                 throw e;
             }
         }

@@ -6,6 +6,10 @@ import "./assets/main.css"
 
 Vue.config.productionTip = false;
 
+router.beforeEach((to, from, next) =>
+  Promise.all([store.dispatch("users/userLoggedIn")]).then(next)
+);
+
 new Vue({
   router,
   store,

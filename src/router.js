@@ -12,6 +12,11 @@ export default new Router({
       component: Home
     },
     {
+      path: "/home",
+      name: "home",
+      component: Home
+    },
+    {
       path: "/login",
       name: "login",
       component: () => import("@/views/Login.vue")
@@ -27,9 +32,21 @@ export default new Router({
       component: () => import("@/views/Settings.vue")
     },
     {
-      path: "/:username",
+      path: "/article/:slug?",
+      name: "article-edit",
+      component: () => import("@/views/ArticleEdit.vue"),
+      props: true
+    },    
+    {
+      path: "/articleView/:slug?",
+      name: "article-view",
+      component: () => import("@/views/ArticleView.vue"),
+      props: true
+    },
+    {
+      path: "/@:username",
       name: "profile",
-      component: () => import("@/views/Profile.vue")
+      component: () => import("@/views/Profile")
     }
   ]
 });

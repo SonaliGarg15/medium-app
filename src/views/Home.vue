@@ -1,4 +1,3 @@
-
 <template>
   <div class="home-page">
     <div class="banner">
@@ -30,8 +29,7 @@
               </li>
             </ul>
           </div>
-
-          <ArticlePreview v-for="article in globalArticles" :key="article.slug" :article="article"></ArticlePreview>
+          <ArticlePreview v-for="article in articles" :key="article.slug" :article="article"></ArticlePreview>
         </div>
       </div>
     </div>
@@ -60,10 +58,10 @@ export default {
     this.setFeed("global");
   },
   computed: {
-    globalArticles() {
-      return this.$store.state.articles.feed || [];
+    articles: function() {
+      return this.$store.getters["home/articles"] || [];
     },
-    username() {
+    username:function(){
       return this.$store.getters["users/username"];
     }
   },

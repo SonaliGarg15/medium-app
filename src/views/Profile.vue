@@ -4,7 +4,7 @@
       <div class="container">
         <div class="row">
           <div class="col-xs-12 col-md-10 offset-md-1">
-            <img src="http://i.imgur.com/Qr71crq.jpg" class="user-img">
+            <img :src="profile.image" class="user-img" />
             <h4>{{ profile.username }}</h4>
             <p>{{ profile.bio }}</p>
             <div v-if="isCurrentUser()">
@@ -72,20 +72,21 @@
 
 <script>
 export default {
+  name: "Profile",
   mounted() {
     this.$store.dispatch("profile/fetch", this.$route.params);
   },
   computed: {
-    username() {
+    username: function() {
       return this.$store.getters["users/username"];
     },
-    currentUser() {
+    currentUser: function() {
       return this.$store.getters["users/currentUser"];
     },
-    isAuthenticated() {
+    isAuthenticated: function() {
       return this.$store.getters["users/isAuthenticated"];
     },
-    profile() {
+    profile: function() {
       return this.$store.getters["profile/profile"];
     }
   },

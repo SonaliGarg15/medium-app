@@ -3,12 +3,17 @@ import { api } from "../api";
 export default {
   namespaced: true,
   state: {
-    feed: [],
+    articles: [],
     count: 0
   },
+  getters:{
+    articles(state){
+      return state.articles;
+    }
+  },
   mutations: {
-    setArticles(state, { articles, articlesCount }) {
-      state.feed = articles;
+    articles(state, { articles, articlesCount }) {
+      state.articles = articles;
       state.count = articlesCount;
     }
   },
@@ -28,7 +33,7 @@ export default {
         route += page ? `?offset=${page - 1 + 10}&limit=10` : "";
       }
       const response = await api.get(route);
-      commit("setArticles", response.data);
+      commit("articles", response.data);
     },
     async getUserFeed({ commit }, payload = { page: 1 }) {
       let route = "/articles/feed";
@@ -37,7 +42,7 @@ export default {
         route += page ? `?offset=${page - 1 + 10}&limit=10` : "";
       }
       const response = await api.get(route);
-      commit("setArticles", response.data);
+      commit("articles", response.data);
     }
   }
 };
