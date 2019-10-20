@@ -75,6 +75,16 @@ export default {
       await api.delete(`/articles/${payload.slug}/comments/${payload.commentId}`);
       context.dispatch("fetchComments", payload.slug);
     },
+    async removeFavorite(context, slug){
+      const response = await api.delete(`articles/${slug}/favorite`); 
+      context.commit("home/updateArticlesInList", response.data.article, {root: true});
+      context.commit("setArticle", response.data.article);   
+    },
+    async addFavorite(context, slug){
+      const response = await  api.post(`articles/${slug}/favorite`);
+      context.commit("home/updateArticlesInList", response.data.article, {root: true});
+      context.commit("setArticle", response.data.article);   
+    },
     addEditTagToArticle(context, tag) {
       context.commit("addTag", tag);
     },

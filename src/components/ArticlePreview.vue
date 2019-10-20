@@ -1,14 +1,31 @@
 <template>
   <div class="article-preview">
     <div class="article-meta">
-      <a href="profile.html">
+      <router-link
+        class="nav-link"
+        :to="{
+              name: 'profile',
+              params: { username: article.author.username }
+            }"
+      >
         <img :src="article.author.image" />
-      </a>
+      </router-link>
       <div class="info">
-        <a href class="author">{{ article.author.username }}</a>
+        <router-link
+          class="nav-link"
+          :to="{
+              name: 'profile',
+              params: { username: article.author.username }
+            }"
+        >{{ article.author.username }}</router-link>
+
         <span class="date">{{ formatDate(article.createdAt) }}</span>
       </div>
-      <button class="btn btn-outline-primary btn-sm pull-xs-right">
+      <button
+        class="btn btn-sm pull-xs-right"
+        @click="toggleFavorite"
+        :class="toggleFavoriteButtonClasses"
+      >
         <i class="ion-heart"></i>
         {{ article.favoritesCount }}
       </button>
@@ -29,9 +46,21 @@ export default {
       type: Object
     }
   },
+  computed: {
+    toggleFavoriteButtonClasses() {
+      return {
+        "btn-primary": this.article.favorited,
+        "btn-outline-primary": !this.article.favorited
+      };
+    }
+  },
   methods: {
     formatDate(dateString) {
       return moment(dateString).format("MMMM Do, YYYY");
+    },
+    toggleFavorite() {
+      const action = this.article.favorited ? "articles/removeFavorite" : "articles/addFavorite";
+      this.$store.dispatch(action, this.article.slug);
     }
   }
 };

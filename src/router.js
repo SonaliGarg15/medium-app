@@ -45,8 +45,19 @@ export default new Router({
     },
     {
       path: "/@:username",
-      name: "profile",
-      component: () => import("@/views/Profile")
+      component: () => import("@/views/Profile"),
+      children: [
+        {
+          path: "",
+          name: "profile",
+          component: () => import("@/views/ProfileArticles")
+        },
+        {
+          path: "favorites",
+          name: "profile-favorites",
+          component: () => import("@/views/ProfileFavorited")
+        }
+      ]
     }
   ]
 });

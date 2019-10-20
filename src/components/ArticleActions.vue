@@ -54,7 +54,7 @@ export default {
         this.$router.push({ name: "login" });
         return;
       }
-      const action = this.article.favorited ? "articles/removeFavorites" : "articles/addFavorites";
+      const action = this.article.favorited ? "articles/removeFavorite" : "articles/addFavorite";
       this.$store.dispatch(action, this.article.slug);
     },    
     async deleteArticle() {

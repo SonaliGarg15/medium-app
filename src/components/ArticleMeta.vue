@@ -13,20 +13,6 @@
     <template v-if="actions">
       <article-actions :article="article" :isAuthor="isCurrentUser()"></article-actions>
     </template>
-    <template v-else>
-      <button
-        class="btn btn-sm pull-xs-right"
-        v-if="!actions"
-        @click="toggleFavorite"
-        :class="{
-          'btn-primary': article.favorited,
-          'btn-outline-primary': !article.favorited
-        }"
-      >
-        <i class="ion-heart"></i>
-        <span class="counter">{{ article.favoritesCount }}</span>
-      </button>
-    </template>
   </div>
 </template>
 
@@ -54,6 +40,12 @@ export default {
     },
     isAuthenticated: function() {
       return this.$store.getters["users/isAuthenticated"];
+    },
+    toggleFavoriteButtonClasses() {
+      return {
+        "btn-primary": this.article.favorited,
+        "btn-outline-primary": !this.article.favorited
+      };
     }
   },
   methods: {
@@ -70,10 +62,9 @@ export default {
         this.$router.push({ name: "login" });
         return;
       }
-      const action = this.article.favorited
-        ? "articles/removeFavorite"
-        : "articles/addFavorite";
-      this.$store.dispatch(action, this.article.slug);
+debugger;
+      const action = this.article.favorited ? "articles/removeFavorite" : "articles/addFavorite";
+      this.$store.dispatch(action, this.article.slug);      
     }
   }
 };
