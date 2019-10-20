@@ -16,7 +16,7 @@
           <router-link class="nav-link" to="/settings">Settings</router-link>
         </li>
         <li v-if="username == null" class="nav-item">
-          <router-link class="nav-link" to="/login">Sign in</router-link>
+          <router-link id="signIn" class="nav-link" to="/login">Sign in</router-link>
         </li>
         <li v-if="username == null" class="nav-item">
           <router-link class="nav-link" to="/register">Sign up</router-link>

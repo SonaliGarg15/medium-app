@@ -8,7 +8,7 @@
         <textarea class="form-control" v-model="comment" placeholder="Write a comment..." rows="3"></textarea>
       </div>
       <div class="card-footer">
-        <button class="btn btn-sm btn-primary">Post Comment</button>
+        <button id="postCommentButton" class="btn btn-sm btn-primary">Post Comment</button>
       </div>
     </form>
   </div>
