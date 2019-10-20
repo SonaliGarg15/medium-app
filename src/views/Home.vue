@@ -27,9 +27,23 @@
                   :class="{ active: activeFeed === 'global'}"
                 >Global Feed</a>
               </li>
+              <li class="nav-item pull-xs-right">
+                <input class="form-control" v-model="selectedTag" v-on:change="onTagSelected(selectedTag)" placeholder="Write tag and press enter"/>              
+              </li>
             </ul>
           </div>
           <ArticlePreview v-for="article in articles" :key="article.slug" :article="article"></ArticlePreview>
+        </div>
+        <div class="col-md-3">
+          <div class="sidebar">
+            <p>Popular Tags</p>
+            <div class="tag-list">
+              <ul class="tag-list" v-for="(tag, index) in tags" :name="tag" :key="index">
+                <li class="tag-pill tag-default"
+                >{{ tag }}</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -52,6 +66,9 @@ export default {
         this.activeFeed = "user";
         this.$store.dispatch("home/getUserFeed");
       }
+    },
+    onTagSelected(selectedTag) {
+      this.$store.dispatch("home/fetchArticles", {filters: {tag: selectedTag}});
     }
   },
   created() {
@@ -61,14 +78,22 @@ export default {
     articles: function() {
       return this.$store.getters["home/articles"] || [];
     },
-    username:function(){
+    tags: function() {
+      return this.$store.getters["home/tags"] || [];
+    },
+    username: function() {
       return this.$store.getters["users/username"];
     }
   },
   data: function() {
     return {
-      activeFeed: "global"
+      activeFeed: "global",
+      isTagSelected: false,
+      selectedTag: ""
     };
+  },
+  mounted() {
+    this.$store.dispatch("home/fetchTags");
   }
 };
 </script>

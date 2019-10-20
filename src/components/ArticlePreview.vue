@@ -35,6 +35,12 @@
       <p>{{ article.description }}</p>
       <span>Read more...</span>
     </router-link>
+
+     <ul class="tag-list pull-xs-right">
+            <li  class="tag-default tag-pill tag-outline" v-for="(tag, index) of article.tagList" :key="tag + index">
+              <span>{{ tag }}</span>
+            </li>
+          </ul>
   </div>
 </template>
 

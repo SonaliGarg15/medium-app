@@ -5,7 +5,8 @@ export default {
   state: {
     articles: [],
     isLoading: true,
-    count: 0
+    count: 0,
+    tags: []
   },
   getters:{
     articles(state){
@@ -13,12 +14,18 @@ export default {
     },
     isLoading(state) {
       return state.isLoading;
+    },
+    tags(state) {
+      return state.tags;
     }
   },
   mutations: {
     articles(state, { articles, articlesCount }) {
       state.articles = articles;
       state.count = articlesCount;
+    },
+    setTags(state, tags){
+      state.tags = tags;
     },
     fetchStart(state) {
       state.isLoading = true;
@@ -85,6 +92,11 @@ export default {
       }
       const response = await api.get(route);
       commit("articles", response.data);
+    },
+    fetchTags({ commit }) {
+      return api.get("/tags").then(({ data }) => {
+        commit("setTags", data.tags);
+      })
     }
   }
 };
