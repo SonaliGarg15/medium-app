@@ -53,6 +53,9 @@ export default {
     async editArticle(context, params) {
       return api.put(`/articles/${params.slug}`, { article : params});
     },
+    async deleteArticle(context, slug) {
+      return api.delete(`/articles/${slug}`);
+    },
     async fetchArticle(context, slug, prevArticle) {
       if (prevArticle !== undefined) {
         return context.commit("setArticle", prevArticle);

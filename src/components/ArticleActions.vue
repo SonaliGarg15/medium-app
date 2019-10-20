@@ -35,6 +35,9 @@ export default {
     profile: function() {
       return this.$store.getters["profile/profile"];
     },
+    username: function() {
+      return this.$store.getters["users/username"];
+    },
     editArticleLink() {
       return { name: "article-edit", params: { slug: this.article.slug } };
     },
@@ -57,13 +60,9 @@ export default {
       const action = this.article.favorited ? "articles/removeFavorite" : "articles/addFavorite";
       this.$store.dispatch(action, this.article.slug);
     },    
-    async deleteArticle() {
-      try {
-        await this.$store.dispatch("articles/deleteArticle", this.article.slug);
-        this.$router.push("/");
-      } catch (err) {
-        console.error(err);
-      }
+    async deleteArticle() {    
+        await this.$store.dispatch("articles/deleteArticle", this.article.slug)
+        .then(() => this.$router.push({ name: "profile", params: { username: this.username } }));      
     }
   }
 };
