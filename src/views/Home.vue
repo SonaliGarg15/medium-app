@@ -27,7 +27,7 @@
                   :class="{ active: activeFeed === 'global'}"
                 >Global Feed</a>
               </li>
-              <li class="nav-item pull-xs-right">
+              <li v-if="username" class="nav-item pull-xs-right">
                 <input class="form-control" v-model="selectedTag" v-on:change="onTagSelected(selectedTag)" placeholder="Write tag and press enter"/>              
               </li>
             </ul>
