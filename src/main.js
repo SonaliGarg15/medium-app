@@ -3,8 +3,11 @@ import App from "./App.vue";
 import router from "./router";
 import store from "./store";
 import "./assets/main.css"
+import ErrorFilter from "./common/error.filter";
 
 Vue.config.productionTip = false;
+
+Vue.filter("error", ErrorFilter);
 
 router.beforeEach((to, from, next) =>
   Promise.all([store.dispatch("users/userLoggedIn")]).then(next)

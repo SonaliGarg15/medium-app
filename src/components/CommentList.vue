@@ -13,7 +13,7 @@
       >{{ comment.author.username }}</router-link>
       <span class="date-posted">{{ comment.createdAt }}</span>
       <span v-if="isCurrentUser" class="mod-options">
-        <i class="ion-trash-a" @click="destroy(slug, comment.id)">Delete</i>
+        <i class="ion-trash-a" @click="destroy(slug, comment.id)"></i>
       </span>
     </div>
   </div>

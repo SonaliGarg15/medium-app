@@ -3,6 +3,9 @@
     <div class="container page">
       <div class="row">
         <div class="col-md-10 offset-md-1 col-xs-12">
+           <ul v-if="errors" class="error-messages">
+            <li v-for="(v, k) in errors" :key="k">{{ k }} {{ v | error }}</li>
+          </ul>
           <form @submit.prevent="onPublishOrEdit(article.slug)">
             <fieldset :disabled="inProgress">
               <fieldset class="form-group">
@@ -94,7 +97,8 @@ export default {
   data() {
     return {
       tagInput: null,
-      inProgress: false
+      inProgress: false,
+      errors: {}
     };
   },
   computed: {
@@ -113,7 +117,7 @@ export default {
         .dispatch(method, this.article)
         .then(({ data }) => {
           this.inProgress = false;
-          debugger;
+          this.errors = {};
           this.$router.push({
             name: "article-view",
             params: { slug: data.article.slug }
@@ -121,6 +125,7 @@ export default {
         })
         .catch(({ response }) => {
           this.inProgress = false;
+          this.errors = response.data.errors;
         });
     },
     removeTag(tag) {

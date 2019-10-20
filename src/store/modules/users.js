@@ -4,8 +4,9 @@ import JwtService from "@/common/jwt.service";
 export default {
     namespaced: true,
     state: {
-        user: null,
-        profile: null
+        user: {},
+        profile: null,
+        errors: null
     },
     getters: {
         username(state) {
@@ -33,6 +34,9 @@ export default {
             state.user = {};
             state.errors = {};
             JwtService.destroyToken();
+        },
+        setErrors(state, error) {
+            state.errors = error;
         }
     },
     actions: {
@@ -49,37 +53,67 @@ export default {
                     commit("setAuthentication", data.user);
                 })
             }
-        },
-        loginUser: async function ({ commit }, { email, password }) {
-            clearToken();
-            try {
-                const response = await api.post("/users/login", {
-                    user: {
-                        email,
-                        password
-                    }
-                });
-                if (response.data.user) {
-                    setToken(response.data.user.token);
-                    commit("setUser", response.data.user);
-                    commit("setAuthentication", response.data.user);
-                }
-            } catch (e) {
-                throw e;
+            else{
+                commit("setErrors", {});
             }
         },
-        registerUser: async function ({ username, email, password }) {
-            try {
-                await api.post("/users", {
+        logout({ commit }){
+            commit("purgAuthentication");
+        },
+        loginUser: function ({ commit }, { email, password }) {
+            clearToken();
+            return new Promise(resolve => {
+                api.post("/users/login", { user: {
+                    email,
+                    password
+                } })
+                  .then(({ data }) => {
+                    setToken(data.user.token);
+                    commit("setUser", data.user);
+                    commit("setAuthentication", data.user);
+                    resolve(data);
+                  })
+                  .catch(({ response }) => {
+                    commit("setErrors", response.data.errors);
+                  });
+              });           
+        },
+        registerUser: function ({ commit },{ username, email, password }) {
+            return new Promise(resolve => {
+                api.post("/users", {
                     user: {
                         username,
                         email,
                         password
                     }
-                });
-            } catch (e) {
-                throw e;
+                })
+                  .then(({ data }) => {
+                    setToken(data.user.token);
+                    commit("setUser", data.user);
+                    commit("setAuthentication", data.user);
+                    resolve(data);
+                  })
+                  .catch(({ response }) => {
+                    commit("setErrors", response.data.errors);
+                  });
+              });           
+        },
+        updateUserSettings({commit}, payload) {
+            const { email, username, password, image, bio } = payload;
+            const user = {
+              email,
+              username,
+              bio,
+              image
+            };
+            if (password) {
+              user.password = password;
             }
+        
+            return api.put("user", user).then(({ data }) => {
+              commit("setAuthentication", data.user);
+              return data;
+            });
         }
     }
 }

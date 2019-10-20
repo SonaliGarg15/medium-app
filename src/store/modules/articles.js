@@ -51,10 +51,12 @@ export default {
       });
     },
     async editArticle(context, params) {
-      debugger;
       return api.put(`/articles/${params.slug}`, { article : params});
     },
-    async fetchArticle(context, slug) {
+    async fetchArticle(context, slug, prevArticle) {
+      if (prevArticle !== undefined) {
+        return context.commit("setArticle", prevArticle);
+      }
       const response = await api.get(`/articles/${slug}`);
       context.commit("setArticle", response.data.article);   
       return response;
@@ -62,7 +64,6 @@ export default {
     async fetchComments(context, slug) {
       const response = await api.get(`/articles/${slug}/comments`);
       context.commit("setComments", response.data.comments);
-      debugger;
       return response.data.comments;
     },
     async createComment(context, payload) {

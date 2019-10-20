@@ -8,21 +8,36 @@
             <a href>Have an account?</a>
           </p>
 
-          <ul class="error-messages">
-            <li>That email is already taken</li>
+          <ul v-if="errors" class="error-messages">
+            <li v-for="(v, k) in errors" :key="k">{{ k }} {{ v | error }}</li>
           </ul>
 
-          <form>
+          <form  @submit.prevent="onSubmit()">
             <fieldset class="form-group">
-              <input class="form-control form-control-lg" v-model="username" type="text" placeholder="Your Name">
-            </fieldset>
-           <fieldset class="form-group">
-              <input class="form-control form-control-lg" v-model="email" type="text" placeholder="Email">
+              <input
+                class="form-control form-control-lg"
+                v-model="username"
+                type="text"
+                placeholder="Your Name"
+              />
             </fieldset>
             <fieldset class="form-group">
-              <input class="form-control form-control-lg" v-model="password" type="password" placeholder="Password">
+              <input
+                class="form-control form-control-lg"
+                v-model="email"
+                type="text"
+                placeholder="Email"
+              />
             </fieldset>
-            <button @click="onSubmit" class="btn btn-lg btn-primary pull-xs-right">Sign up</button>
+            <fieldset class="form-group">
+              <input
+                class="form-control form-control-lg"
+                v-model="password"
+                type="password"
+                placeholder="Password"
+              />
+            </fieldset>
+            <button class="btn btn-lg btn-primary pull-xs-right">Sign up</button>
           </form>
         </div>
       </div>
@@ -39,14 +54,20 @@ export default {
       password: ""
     };
   },
+  computed: {
+    errors() {
+      return this.$store.state.users.errors;
+    }
+  },
   methods: {
     onSubmit() {
-      this.$store.dispatch("users/registerUser", {
-        email: this.email,
-        password: this.password,
-        username: this.username
-      })
-      .then(() => this.$router.push({ name: "home" }));
+      this.$store
+        .dispatch("users/registerUser", {
+          email: this.email,
+          password: this.password,
+          username: this.username
+        })
+        .then(() => this.$router.push({ name: "home" }));
     }
   }
 };
