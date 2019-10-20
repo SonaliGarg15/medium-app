@@ -75,12 +75,10 @@ export default {
     currentUser: function() {
       return this.$store.getters["users/currentUser"];
     },
-    isAuthenticated: function() {
-      console.log( this.$store.getters["users/isAuthenticated"]);
+    isAuthenticated: function() {     
       return this.$store.getters["users/isAuthenticated"];
     },
     comments: function() {
-      console.log(this.$store.getters["articles/comments"]);
       return this.$store.getters["articles/comments"];
     }
   },

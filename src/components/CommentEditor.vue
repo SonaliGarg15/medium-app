@@ -42,7 +42,6 @@ export default {
           this.errors = {};
         })
         .catch(({ response }) => {
-          debugger;
           this.errors = response.data.errors;
         });
     }

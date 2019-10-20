@@ -62,7 +62,6 @@ export default {
         this.$router.push({ name: "login" });
         return;
       }
-debugger;
       const action = this.article.favorited ? "articles/removeFavorite" : "articles/addFavorite";
       this.$store.dispatch(action, this.article.slug);      
     }

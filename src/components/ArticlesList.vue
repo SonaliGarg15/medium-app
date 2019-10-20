@@ -65,7 +65,6 @@ export default {
   },
   methods: {
     fetchArticles() {
-        debugger;
       this.$store.dispatch("home/fetchArticles", this.listConfiguration);
     }
   }
