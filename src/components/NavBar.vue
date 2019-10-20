@@ -8,7 +8,7 @@
           <router-link class="nav-link" to="/">Home</router-link>
         </li>
         <li v-if="username" class="nav-item">
-          <router-link class="nav-link" to="/article">
+          <router-link class="nav-link" to="/article" id="newPostLink">
             <i class="ion-compose"></i>&nbsp;New Post
           </router-link>
         </li>
@@ -31,7 +31,7 @@
             }"
           >{{ username }}</router-link>
         </li>
-        <li v-if="username" class="nav-item nav-link" @click="logout">Logout</li>
+        <li id="logout" v-if="username" class="nav-item nav-link" @click="logout">Logout</li>
       </ul>
     </div>
   </nav>
