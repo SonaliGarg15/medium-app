@@ -1,7 +1,7 @@
 import Vue from "vue";
 import ArticleActions from "@/components/ArticleActions.vue";
 
-describe("Settings.test.js", () => {
+describe("ArticleActions.spec.js", () => {
   let cmp, vm;
 
   beforeEach(() => {

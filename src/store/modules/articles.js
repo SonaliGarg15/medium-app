@@ -92,7 +92,7 @@ export default {
     addEditTagToArticle(context, tag) {
       context.commit("addTag", tag);
     },
-    addEditRemoveTagToArticle(context, tag) {
+    addEditRemoveTagFromArticle(context, tag) {
       context.commit("removeTag", tag);
     },
     resetArticleState({ commit }) {

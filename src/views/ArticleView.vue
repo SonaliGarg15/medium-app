@@ -12,6 +12,11 @@
       <div class="row article-content">
         <div class="col-md-12">
           <div v-html="parseMarkdown(article.body)"></div>
+           <ul class="tag-list">
+            <li  class="tag-default tag-pill tag-outline" v-for="(tag, index) of article.tagList" :key="tag + index">
+              <span>{{ tag }}</span>
+            </li>
+          </ul>
         </div>
       </div>
 

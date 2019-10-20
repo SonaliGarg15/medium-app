@@ -129,10 +129,10 @@ export default {
         });
     },
     removeTag(tag) {
-      this.$store.dispatch("articles/addEditTagToArticle", tag);
+      this.$store.dispatch("articles/addEditRemoveTagFromArticle", tag);
     },
     addTag(tag) {
-      this.$store.dispatch("articles/addEditRemoveTagFromArticle", tag);
+      this.$store.dispatch("articles/addEditTagToArticle", tag);
       this.tagInput = null;
     }
   }
