@@ -3,6 +3,13 @@
 describe("My First Test", () => {
   it("Visits the app root url", () => {
     cy.visit("/");
-    cy.contains("h1", "Welcome to Your Vue.js App");
+    cy.get("#signIn").click();
+    cy.get("h1").contains("Sign In");
+    cy.get('input[placeholder="Email"]').type("sonali@gmail.com");
+    cy.get('input[placeholder="Password"]').type("sonali@123");
+    cy.get("button").click();
+    cy.xpath('//*[@id="app"]/div/div[2]/div/div/div[2]/a/h1').click();
+    cy.get("textarea").type("add automation comment");
+    cy.get('#postCommentButton').click();
   });
 });
