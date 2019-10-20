@@ -15,26 +15,6 @@
                 <i class="ion-gear-a"></i> Edit Profile Settings
               </router-link>
             </div>
-            <div v-else>
-              <button
-                class="btn btn-sm btn-secondary action-btn"
-                v-if="profile.following"
-                @click.prevent="unfollow()"
-              >
-                <i class="ion-plus-round"></i>
-                &nbsp;Unfollow
-                {{ profile.username }}
-              </button>
-              <button
-                class="btn btn-sm btn-outline-secondary action-btn"
-                v-if="!profile.following"
-                @click.prevent="follow()"
-              >
-                <i class="ion-plus-round"></i>
-                &nbsp;Follow
-                {{ profile.username }}
-              </button>
-            </div>
           </div>
         </div>
       </div>
@@ -96,13 +76,6 @@ export default {
         return this.currentUser.username === this.profile.username;
       }
       return false;
-    },
-    follow() {
-      if (!this.isAuthenticated) return;
-      this.$store.dispatch("profile/follow", this.$route.params);
-    },
-    unfollow() {
-      this.$store.dispatch("profile/unfollow", this.$route.params);
     }
   },
   watch: {

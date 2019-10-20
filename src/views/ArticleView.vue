@@ -16,58 +16,22 @@
       </div>
 
       <hr />
-
-      <div class="article-actions">
-        <ArticleMeta :article="article" :actions="true"></ArticleMeta>
-      </div>
-
       <div class="row">
         <div class="col-xs-12 col-md-8 offset-md-2">
-          <form class="card comment-form">
-            <div class="card-block">
-              <textarea class="form-control" placeholder="Write a comment..." rows="3"></textarea>
-            </div>
-            <div class="card-footer">
-              <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
-              <button class="btn btn-sm btn-primary">Post Comment</button>
-            </div>
-          </form>
+          <CommentEditor v-if="isAuthenticated" :slug="slug"
+          :userImage="currentUser.image"></CommentEditor>  
+          <p v-else>
+            <router-link to="/login">Sign in</router-link>
+            or
+            <router-link to="/register">sign up</router-link>
+            </p>     
 
-          <div class="card">
-            <div class="card-block">
-              <p
-                class="card-text"
-              >With supporting text below as a natural lead-in to additional content.</p>
-            </div>
-            <div class="card-footer">
-              <a href class="comment-author">
-                <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
-              </a>
-              &nbsp;
-              <a href class="comment-author">Jacob Schmidt</a>
-              <span class="date-posted">Dec 29th</span>
-            </div>
-          </div>
-
-          <div class="card">
-            <div class="card-block">
-              <p
-                class="card-text"
-              >With supporting text below as a natural lead-in to additional content.</p>
-            </div>
-            <div class="card-footer">
-              <a href class="comment-author">
-                <img src="http://i.imgur.com/Qr71crq.jpg" class="comment-author-img" />
-              </a>
-              &nbsp;
-              <a href class="comment-author">Jacob Schmidt</a>
-              <span class="date-posted">Dec 29th</span>
-              <span class="mod-options">
-                <i class="ion-edit"></i>
-                <i class="ion-trash-a"></i>
-              </span>
-            </div>
-          </div>
+            <CommentList
+              v-for="(comment, index) in comments"
+              :slug="slug"
+              :comment="comment"
+              :key="index">
+              </CommentList>        
         </div>
       </div>
     </div>
@@ -78,6 +42,8 @@
 import marked from "marked";
 import store from "@/store";
 import ArticleMeta from "@/components/ArticleMeta.vue";
+import CommentEditor from "@/components/CommentEditor.vue";
+import CommentList from "@/components/CommentList.vue";
 
 export default {
   name: "article-view",
@@ -88,11 +54,15 @@ export default {
     }
   },
   components: {
-    ArticleMeta
+    ArticleMeta,
+    CommentEditor,
+    CommentList
   },
   beforeRouteEnter(to, from, next) {
-    debugger;
-    Promise.all([store.dispatch("articles/fetchArticle", to.params.slug)]).then(
+    Promise.all([
+      store.dispatch("articles/fetchArticle", to.params.slug),
+      store.dispatch("articles/fetchComments", to.params.slug)
+    ]).then(
       () => {
         next();
       }
@@ -106,7 +76,12 @@ export default {
       return this.$store.getters["users/currentUser"];
     },
     isAuthenticated: function() {
+      console.log( this.$store.getters["users/isAuthenticated"]);
       return this.$store.getters["users/isAuthenticated"];
+    },
+    comments: function() {
+      console.log(this.$store.getters["articles/comments"]);
+      return this.$store.getters["articles/comments"];
     }
   },
   methods: {
@@ -116,3 +91,4 @@ export default {
   }
 };
 </script>
+)

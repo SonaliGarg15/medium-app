@@ -22,18 +22,6 @@ export default {
         .then(({data}) => {
             context.commit("setProfile", data.profile);
         });
-    },
-    follow(context, username) {
-        return api.post(`/profiles/${username}/follow`, username)
-        .then(({data}) => {
-            context.commit("setProfile", data.profile);
-        });
-    },
-    unfollow(context, username) {
-        return api.delete(`/profiles/${username}/follow`, username)
-        .then(({data}) => {
-            context.commit("setProfile", data.profile);
-        });
     }
   }
 };

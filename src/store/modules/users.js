@@ -46,6 +46,7 @@ export default {
                 setToken(token);
                 api.get("user").then(({data}) => {
                     commit("setUser", data.user);
+                    commit("setAuthentication", data.user);
                 })
             }
         },

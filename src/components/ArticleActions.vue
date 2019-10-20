@@ -8,13 +8,7 @@
       <i class="ion-trash-a"></i> <span>&nbsp;Delete Article</span>
     </button>
   </span>
-  <span v-else>
-    <button class="btn btn-sm btn-outline-secondary" @click="toggleFollow">
-      <i class="ion-plus-round"></i> <span>&nbsp;</span>
-      <span v-if="profile.following">Unfollow {{ article.author.username }}</span>
-      <span v-if="!profile.following">Follow {{ article.author.username }}</span>
-    </button>
-    <span>&nbsp;&nbsp;</span>
+  <span v-else>    
     <button
       class="btn btn-sm"
       @click="toggleFavorite"
@@ -62,19 +56,7 @@ export default {
       }
       const action = this.article.favorited ? "articles/removeFavorites" : "articles/addFavorites";
       this.$store.dispatch(action, this.article.slug);
-    },
-    toggleFollow() {
-      if (!this.isAuthenticated) {
-        this.$router.push({ name: "login" });
-        return;
-      }
-      const action = this.article.following
-        ? "articles/fetchProfileUnfollow"
-        : "articles/fetchProfileFollow";
-      this.$store.dispatch(action, {
-        username: this.profile.username
-      });
-    },
+    },    
     async deleteArticle() {
       try {
         await this.$store.dispatch("articles/deleteArticle", this.article.slug);

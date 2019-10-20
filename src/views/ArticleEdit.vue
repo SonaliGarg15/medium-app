@@ -113,8 +113,9 @@ export default {
         .dispatch(method, this.article)
         .then(({ data }) => {
           this.inProgress = false;
+          debugger;
           this.$router.push({
-            name: "article",
+            name: "article-view",
             params: { slug: data.article.slug }
           });
         })
