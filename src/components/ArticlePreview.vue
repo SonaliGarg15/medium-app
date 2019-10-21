@@ -22,6 +22,7 @@
         <span class="date">{{ formatDate(article.createdAt) }}</span>
       </div>
       <button
+      v-if="username"
         class="btn btn-sm pull-xs-right"
         @click="toggleFavorite"
         :class="toggleFavoriteButtonClasses"
@@ -36,11 +37,15 @@
       <span>Read more...</span>
     </router-link>
 
-     <ul class="tag-list pull-xs-right">
-            <li  class="tag-default tag-pill tag-outline" v-for="(tag, index) of article.tagList" :key="tag + index">
-              <span>{{ tag }}</span>
-            </li>
-          </ul>
+    <ul class="tag-list pull-xs-right">
+      <li
+        class="tag-default tag-pill tag-outline"
+        v-for="(tag, index) of article.tagList"
+        :key="tag + index"
+      >
+        <span>{{ tag }}</span>
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -53,6 +58,9 @@ export default {
     }
   },
   computed: {
+    username: function() {
+      return this.$store.getters["users/username"];
+    },
     toggleFavoriteButtonClasses() {
       return {
         "btn-primary": this.article.favorited,
@@ -65,7 +73,9 @@ export default {
       return moment(dateString).format("MMMM Do, YYYY");
     },
     toggleFavorite() {
-      const action = this.article.favorited ? "articles/removeFavorite" : "articles/addFavorite";
+      const action = this.article.favorited
+        ? "articles/removeFavorite"
+        : "articles/addFavorite";
       this.$store.dispatch(action, this.article.slug);
     }
   }

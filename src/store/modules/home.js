@@ -60,7 +60,7 @@ export default {
         route += tag ? `?tag=${tag}&` : "";
         route += author ? `?author=${author}&` : "";
         route += favorited ? `?favorited=${favorited}&` : "";
-        route += page ? `?offset=${page - 1 + 10}&limit=10` : "";
+        route += page ? `?offset=${page - 1 + 50}&limit=50` : "";
       }
      return api.get(route)
         .then(({data}) => {
@@ -79,7 +79,7 @@ export default {
         route += tag ? `?tag=${tag}&` : "";
         route += author ? `?author=${author}&` : "";
         route += favorited ? `?favorited=${favorited}&` : "";
-        route += page ? `?offset=${page - 1 + 10}&limit=10` : "";
+        route += page ? `?offset=${page - 1 + 50}&limit=50` : "";
       }
       const response = await api.get(route);
       commit("articles", response.data);
@@ -88,7 +88,7 @@ export default {
       let route = "/articles/feed";
       if (payload) {
         const { page = 1 } = payload;
-        route += page ? `?offset=${page - 1 + 10}&limit=10` : "";
+        route += page ? `?offset=${page - 1 + 20}&limit=20` : "";
       }
       const response = await api.get(route);
       commit("articles", response.data);

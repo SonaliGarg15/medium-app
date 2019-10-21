@@ -23,6 +23,9 @@ export default {
         setUser(state, payload) {
             state.user = payload;
         },
+        setAuth(state, value){
+            state.isAuthenticated = value;
+        },
         setAuthentication(state, user) {
             state.isAuthenticated = true;
             state.user = user;
@@ -48,16 +51,18 @@ export default {
             var token = JwtService.getToken();
             if(token) {
                 setToken(token);
+                commit("setAuth", true);
                 api.get("user").then(({data}) => {
-                    commit("setUser", data.user);
                     commit("setAuthentication", data.user);
                 })
             }
             else{
-                commit("setErrors", {});
+                commit("setAuth", false);
+                commit("purgAuthentication");
             }
         },
         logout({ commit }){
+            commit("setAuth", false);
             commit("purgAuthentication");
         },
         loginUser: function ({ commit }, { email, password }) {
